@@ -13,6 +13,7 @@
 - `src/HeartwaveRadio/hooks/useHeartwave.ts`：题目抽取、倒计时、连击、计分、频道推导、最高分和键盘输入。
 - `src/HeartwaveRadio/hooks/useWall.ts`：拉取平台最近用户存档，展开每个用户的全部 `broadcasts`，解析用户资料并输出社区条目。
 - `src/HeartwaveRadio/components/FrequencyCard.tsx`：结果页、社区墙与详情页共用的响应式广播档案框架；固定渲染刊号、内容与社交信息层，中央 `hw-card__field` 是未来视觉 DNA 的可替换画面槽。当前槽位渲染频率、等高线及由五次选择生成的连续信号轨迹，用频道变量切换纸张与强调色；随机 DNA 暂停分配。
+- `src/HeartwaveRadio/components/SampleWall.tsx`：设计校准用隐藏样本墙，通过 `?samples=1` 访问；用 12 组中英文、长短标题、频道与选择路径压力测试同一框架，不读取或写入用户存档。
 - `src/HeartwaveRadio/components/Wall.tsx`：个人条目乐观合并、按条目 ID 去重、最新 24 条展示、墙卡详情弹层、作者主页入口与本人作品两步删除。
 - `src/HeartwaveRadio/data.ts`：8 组双选题与 4 个频道的名称、色彩、台词和标签。
 - `src/HeartwaveRadio/i18n/index.ts`：中文和英文轻量文案；优先读取 `game_locale` 手动覆盖，未设置时根据 `navigator.language` 自动选择，并同步更新 HTML `lang` 属性。
