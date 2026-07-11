@@ -8,6 +8,7 @@ import { useWall } from './hooks/useWall';
 import type { HeartwaveSave } from './types';
 import FrequencyCard from './components/FrequencyCard';
 import SampleWall from './components/SampleWall';
+import V2Lab from './components/V2Lab';
 import Wall from './components/Wall';
 import { click, publishSound } from './utils/sounds';
 import './HeartwaveRadio.less';
@@ -24,6 +25,7 @@ export default function HeartwaveRadio(){
   const hasBroadcastToday=local.lastBroadcastDay===dayKey();
   const publish=()=>{if(published||hasBroadcastToday)return;click();publishSound();const next:HeartwaveSave={...local,lastBroadcastDay:dayKey(),broadcasts:[game.broadcast,...local.broadcasts.filter(x=>x.id!==game.broadcast.id)].slice(0,20)};setLocal(next);save.persist(next);setPublished(true);wall.refresh()};
   const deleteBroadcast=(id:string)=>{const next:HeartwaveSave={...local,broadcasts:local.broadcasts.filter(x=>x.id!==id)};setLocal(next);save.persist(next);wall.refresh()};
+  if(new URLSearchParams(window.location.search).has('lab'))return <V2Lab/>;
   if(new URLSearchParams(window.location.search).has('samples'))return <SampleWall/>;
   if(screen==='wall')return <main className="hw"><Wall community={wall.entries} mine={local.broadcasts} loaded={wall.loaded} onDelete={deleteBroadcast} onBack={()=>setScreen('game')}/><img className="hw__watermark" src={aigramSrc} alt="" draggable={false}/></main>;
   const c=CHANNELS[game.channel];

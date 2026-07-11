@@ -16,7 +16,7 @@ const samples: Array<[Dimension,string,string,string,string[],string[]]> = [
   ['bright','Sunrise Relay Station','You pass the first brave signal to whoever needs it next.','90.8',['new circuit','open window','forward motion'],['bright','warm','bright','quiet','wild']],
 ];
 
-const broadcasts: Broadcast[]=samples.map(([channel,title,line,frequency,tags,picks],index)=>({id:`sample-${index}`,createdAt:0,channel,frequency,score:900+index*13,tags,picks,title,line,signature:`SAMPLE ${String(index+1).padStart(2,'0')}`}));
+export const sampleBroadcasts: Broadcast[]=samples.map(([channel,title,line,frequency,tags,picks],index)=>({id:`sample-${index}`,createdAt:0,channel,frequency,score:900+index*13,tags,picks,title,line,signature:`SAMPLE ${String(index+1).padStart(2,'0')}`}));
 
 const modes=['contour','spectrum','matrix'] as const;
-export default function SampleWall(){return <main className="hw-samples"><header><small>HEARTWAVE RADIO · CONTROLLED DNA TEST</small><h1>Broadcast field studies</h1><p>Three field languages × two densities × two signal directions.</p></header><div className="hw-samples__grid">{broadcasts.map((broadcast,index)=><section key={broadcast.id}><span>{String(index+1).padStart(2,'0')} · {modes[index%3]}</span><FrequencyCard broadcast={broadcast} compact previewMode={modes[index%3]}/></section>)}</div></main>}
+export default function SampleWall(){return <main className="hw-samples"><header><small>HEARTWAVE RADIO · CONTROLLED DNA TEST</small><h1>Broadcast field studies</h1><p>Three field languages × two densities × two signal directions.</p></header><div className="hw-samples__grid">{sampleBroadcasts.map((broadcast,index)=><section key={broadcast.id}><span>{String(index+1).padStart(2,'0')} · {modes[index%3]}</span><FrequencyCard broadcast={broadcast} compact previewMode={modes[index%3]}/></section>)}</div></main>}
