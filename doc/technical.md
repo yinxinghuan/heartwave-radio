@@ -15,7 +15,7 @@
 - `src/HeartwaveRadio/components/FrequencyCard.tsx`：结果页与社区墙共用的响应式频率卡；先根据频道输出 warm / wild / quiet / bright 基础模板，再哈希 `broadcast.id` 生成 layout / texture / stamp / rhythm 四层视觉 DNA 类，组合出 12,288 种稳定变体，保证每局随机、发布后不变。
 - `src/HeartwaveRadio/components/Wall.tsx`：个人条目乐观合并、按条目 ID 去重、最新 24 条展示和作者主页入口。
 - `src/HeartwaveRadio/data.ts`：8 组双选题与 4 个频道的名称、色彩、台词和标签。
-- `src/HeartwaveRadio/i18n/index.ts`：中文和英文轻量文案，根据 `game_locale` 或浏览器语言选择。
+- `src/HeartwaveRadio/i18n/index.ts`：中文和英文轻量文案；优先读取 `game_locale` 手动覆盖，未设置时根据 `navigator.language` 自动选择，并同步更新 HTML `lang` 属性。
 - `src/HeartwaveRadio/utils/sounds.ts`：Web Audio 合成音效。
 - `src/shared/runtime/`、`src/shared/save/`：同步自项目共享目录的平台桥接和存档实现。
 - `public/poster.svg`、`meta.json`、`src/game-id.ts`：封面、发布元数据与永久游戏 UUID。
