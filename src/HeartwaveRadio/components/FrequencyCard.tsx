@@ -4,7 +4,7 @@ import type { Broadcast } from '../types';
 export default function FrequencyCard({ broadcast, compact=false }: { broadcast: Broadcast; compact?: boolean }) {
   const c=CHANNELS[broadcast.channel];
   const seed=[...broadcast.id].reduce((n,ch)=>(n*31+ch.charCodeAt(0))>>>0,2166136261);
-  const layout=seed%5, texture=Math.floor(seed/5)%5, stamp=Math.floor(seed/25)%5, rhythm=Math.floor(seed/125)%4;
+  const layout=seed%8, texture=Math.floor(seed/8)%8, stamp=Math.floor(seed/64)%8, rhythm=Math.floor(seed/512)%6;
   return <div className={`hw-card hw-card--${broadcast.channel} hw-card--layout-${layout} hw-card--texture-${texture} hw-card--stamp-${stamp} hw-card--rhythm-${rhythm} ${compact?'hw-card--compact':''}`} data-visual-dna={`${layout}-${texture}-${stamp}-${rhythm}`} style={{'--channel':c.color} as React.CSSProperties}>
     <div className="hw-card__noise"/><div className="hw-card__beam"/>
     <div className="hw-card__motif" aria-hidden>{[0,1,2,3,4,5].map(n=><i key={n}/>)}</div>
