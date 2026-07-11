@@ -14,8 +14,8 @@
 - `src/HeartwaveRadio/hooks/useWall.ts`：拉取平台最近用户存档，展开每个用户的全部 `broadcasts`，解析用户资料并输出社区条目。
 - `src/HeartwaveRadio/components/FrequencyCard.tsx`：结果页、社区墙与详情页共用的响应式广播档案框架；固定渲染刊号、内容与社交信息层，中央 `hw-card__field` 是视觉 DNA 的可替换画面槽。对 `broadcast.id` 做稳定哈希，选择 contour / spectrum / matrix 三种场景、air / dense 两种密度及 rise / fall 两种方向，共 12 种受控组合；用频道变量切换纸张与强调色。
 - `src/HeartwaveRadio/components/SampleWall.tsx`：设计校准用隐藏样本墙，通过 `?samples=1` 访问；用 12 组中英文、长短标题、频道与选择路径依次展示三种场景并压力测试受控组合，不读取或写入用户存档。
-- `src/HeartwaveRadio/components/V2Artwork.tsx`：V2 实验作品渲染器；Signal Portrait、Transmission Strip、Message Matrix、Night Collage 使用四套独立 DOM 层级与构图语法，仅共享频道色变量、频率、标签和五段路径数据。
-- `src/HeartwaveRadio/components/V2Lab.tsx`：通过 `?lab=1` 访问的隔离设计实验室，将 12 组中英文压力数据扩展为 24 张样本，每个视觉世界固定展示 6 张；不接入发布、存档或正式作品墙。
+- `src/HeartwaveRadio/components/V2Artwork.tsx`：V2 实验作品渲染器；Signal Portrait、Transmission Strip、Message Matrix、Night Collage 使用四套独立 DOM 层级与构图语法，仅共享频道色变量、频率、标签和五段路径数据。每个世界支持 V0 / V1 / V2 三种内部构图；`selectArtWorld()` 根据主副频道语义提供未来正式映射，作品 ID 的稳定哈希只决定内部构图。
+- `src/HeartwaveRadio/components/V2Lab.tsx`：通过 `?lab=1` 访问的隔离设计实验室，将 12 组中英文压力数据扩展为 24 张样本，每个视觉世界固定展示 6 张，并轮换三种内部构图各 2 次；不接入发布、存档或正式作品墙。
 - `src/HeartwaveRadio/components/Wall.tsx`：个人条目乐观合并、按条目 ID 去重、最新 24 条展示、墙卡详情弹层、作者主页入口与本人作品两步删除。
 - `src/HeartwaveRadio/data.ts`：8 组双选题与 4 个频道的名称、色彩、台词和标签。
 - `src/HeartwaveRadio/i18n/index.ts`：中文和英文轻量文案；优先读取 `game_locale` 手动覆盖，未设置时根据 `navigator.language` 自动选择，并同步更新 HTML `lang` 属性。
@@ -34,6 +34,7 @@
 - 墙内作者头像使用 `head_url`，缺失时显示姓名首字母；头像姓名按钮使用 `onClick` 并在 Aigram 内调用 `openAigramProfile`。
 - Web Audio 在首次手势后解锁；开场播放短促搜台噪声，每次答案加入对应频道乐句，结算时播放频道主题旋律。全局界面以 `100dvh` 适配屏幕；结果页和墙独立滚动，墙卡使用 `touch-action: pan-y` 保留移动端自然滚动。
 - V2 实验室采用 3 / 2 / 1 列响应式网格，作品保持 `1.62:1` 比例；自动化样本检查分别在 1280 px 和 390 px 视口渲染 24 张作品，并检测标题、正文、标签和矩阵内容的边界是否落在卡片内部。Signal Portrait 的旋转信号主体允许在内部产生受容器裁切的装饰性出血。
+- V2 内容映射不是均匀随机：warm 默认进入 portrait、warm × wild 进入 collage；wild × bright 进入 strip，其余 wild 进入 collage；quiet × warm 进入 portrait，其余 quiet 进入 matrix；bright × wild 进入 strip，其余 bright 进入 collage。该规则目前只作为实验接口存在，正式 `FrequencyCard` 尚未调用。
 
 ## 4. 扩展点
 
