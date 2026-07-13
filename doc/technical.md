@@ -31,7 +31,7 @@
 - 60 秒定时器通过 ref 保持当前选择和分数，确保超时结算不会读取旧闭包；最高分写入 `heartwave_radio_best`。
 - `useGameSave` 的 `savedData` 只用于首次加载，之后以组件内 `local` 状态作为唯一读写镜像；每次发布保存最近 20 张个人频率卡。
 - 结算时 `buildBroadcast()` 一次性生成稳定条目 ID，依据五次选择统计主副频道并映射 12 套复合人格内容；路径哈希决定广播文案和频率，避免重渲染改变作品。社区数据钩子遍历每个用户存档内全部 `broadcasts`，跨用户按 `createdAt` 排序；墙组件将本地个人条目先行合并，按 `broadcast.id` 去重后展示 24 条。
-- `HeartwaveSave.lastBroadcastDay` 是每日公开播出的唯一锁定来源；删除只修改同一镜像中的 `broadcasts`，保留 `lastBroadcastDay`，避免删除后绕过每日仪式。
+- 每个本地自然日只有一个公开席位：`HeartwaveSave.lastBroadcastDay` 标记席位日期，`lastBroadcastId` 指向当前公开作品。当天再次发布时，新作品替换该 ID 对应的旧作品，`broadcasts` 中始终只保留当天最新的一张；删除当前作品会将 ID 写为 `null`，允许新作品重新占用席位。旧存档缺少 `lastBroadcastId` 时回退到 `broadcasts[0]`，无需迁移。
 - 墙内作者头像使用 `head_url`，缺失时显示姓名首字母；头像姓名按钮使用 `onClick` 并在 Aigram 内调用 `openAigramProfile`。
 - Web Audio 在首次手势后解锁；开场播放短促搜台噪声，每次答案加入对应频道乐句，结算时播放频道主题旋律。全局界面以 `100dvh` 适配屏幕；结果页和墙独立滚动，墙卡使用 `touch-action: pan-y` 保留移动端自然滚动。
 - V2 实验室采用 3 / 2 / 1 列响应式网格，作品保持 `1.62:1` 比例；自动化样本检查分别在 1280 px 和 390 px 视口渲染 24 张作品，并检测标题、正文、标签和矩阵内容的边界是否落在卡片内部。Signal Portrait 的旋转信号主体允许在内部产生受容器裁切的装饰性出血。
@@ -44,6 +44,6 @@
 - 修改唱片、磨砂面板、动效、响应式尺寸或频道卡排版：修改 `src/HeartwaveRadio/HeartwaveRadio.less`。
 - 调整正式 V2 四个艺术世界的结构或内容映射：修改 `components/V2Artwork.tsx`；调整作品入口适配：修改 `components/Artwork.tsx`；调整实验样本编排：修改 `components/V2Lab.tsx`。对应视觉规则集中在 `HeartwaveRadio.less` 的 `V2 art-direction laboratory` 区域。
 - 增加文案或语言：扩展 `src/HeartwaveRadio/i18n/index.ts` 的字典和 locale 检测。
-- 调整个人存档容量或墙展示上限：分别修改 `HeartwaveRadio.tsx` 的 20 条上限与 `components/Wall.tsx` / `hooks/useWall.ts` 的 24 条上限。
+- 调整每日公开席位、个人存档容量或墙展示上限：分别修改 `HeartwaveRadio.tsx` 的 `activeDailyId` / 发布逻辑、20 条上限，以及 `components/Wall.tsx` / `hooks/useWall.ts` 的 24 条上限。
 - 增加点赞、留言或通知：在墙卡中接入 `useGameEvent`，继续使用条目 ID 作为目标键，通知目标使用墙条目的真实 `userId`。
 - 更换发布信息、封面或游戏身份：修改 `meta.json`、`public/poster.svg` 与 `games/games.json`；`src/game-id.ts` 中 UUID 永久保持不变。
